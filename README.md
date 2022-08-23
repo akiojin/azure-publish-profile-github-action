@@ -38,7 +38,7 @@ In this case, the "contributor" privilege is inherited by all resources in the s
 
 You will get a response like the above, save the `appId`, `password`, and `tenant` in this response.
 Set each saved value to secrets in GitHub Actions.
-Example: SERVICE_PRINCIPAL_APP_ID/SERVICE_PRINCIPAL_PASSWORD/SERVICE_PRINCIPAL_TENANT_ID
+Example: `SERVICE_PRINCIPAL_APP_ID`/`SERVICE_PRINCIPAL_PASSWORD`/`SERVICE_PRINCIPAL_TENANT_ID`
 
 ## Usage
 
