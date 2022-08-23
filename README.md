@@ -1,18 +1,44 @@
 # azure-publish-profile-github-action
 
-このアクションは Azure の WebApp や Azure Functions で発行に使用する発行プロファイルを取得するアクションです。
+[Build](https://github.com/akiojin/unity-build-github-action/actions/workflows/Test.yml/badge.svg)
+
+This action retrieves the publish profile used for publishing in Azure WebApp and Azure Functions.
 
 ## Requirement
 
 You will need to install [azure cli](https://docs.microsoft.com/en-us/cli/azure/)
 
-### Installation
+## Installation
 
 [How to install the Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 
 ```sh
 brew update && brew install azure-cli
 ```
+
+## Creating Service Principals
+
+This action uses a service principal, so it must be created in advance.
+To create a service principal with authority over subscriptions, do the following
+
+```sh
+az ad sp create-for-rbac --name <Service principal name> --role contributor --scopes /subscriptions/<Subscription ID>
+```
+
+In this case, the "contributor" privilege is inherited by all resources in the subscription.
+
+```json
+{
+  "appId": "<App ID>",
+  "displayName": "<Name>",
+  "password": "<Password>",
+  "tenant": "<Tenant ID>"
+}
+```
+
+You will get a response like the above, save the `appId`, `password`, and `tenant` in this response.
+Set each saved value to secrets in GitHub Actions.
+Example: SERVICE_PRINCIPAL_APP_ID/SERVICE_PRINCIPAL_PASSWORD/SERVICE_PRINCIPAL_TENANT_ID
 
 ## Usage
 
@@ -28,46 +54,23 @@ brew update && brew install azure-cli
     resource-group: <Resource Group>
 ```
 
-### Common
+### Arguments
 
-|Name|Required|Type|Default|Description|
-|:--|:--|:--|:--|:--|
-|additional-arguments|`false`|`string`|""|Specify additional required arguments.|
-|build-target|`true`|`string`||Allows the selection of an active build target before loading a project.<br><br>Possible options are:<br>Standalone, Win, Win64, OSXUniversal, Linux, Linux64, LinuxUniversal, iOS, Android, Web, WebStreamed, WebGL, XboxOne, PS4, WindowsStoreApps, Switch, N3DS, tvOS.|
-|configuration|`false`|`string`|Debug|The configuration to use when building the app.<br><br>Possible options are:<br>Debug, Release.|
-|execute-method|`false`|`string`|""|Execute the static method as soon as Unity opens the project, and after the optional Asset server update is complete.|
-|log-file|`false`|`string`|`"-"`|Specify where Unity writes the Editor or Windows/Linux/OSX standalone log file.<br>To output to the console, specify - for the path name.<br>On Windows, specify - option to make the output go to stdout, which is not the console by default.|
-|output-directory|`false`|`string`|$RUNNER_TEMP|The directory in which the ipa/apk file should be stored in.|
-|output-name|`false`|`string`|"Build"|Specifies the output file name.|
-|project-directory|`true`|`string`||Open the project at the given path. If the pathname contains spaces, enclose it in quotes.|
-|unity-version|`false`|`string`|""|Specify the Unity version to be used.<br>If omitted, the project version is used.|
+|Name|Required|Type|Description|
+|:--|:--|:--|:--|
+|app-id|`true`|`string`|Service Principal App ID.|
+|password|`true`|`string`|Service Principal Password.|
+|tenant|`true`|`string`|Service Principal Tenant ID.|
+|subscription|`true`|`string`|Subscription ID.|
+|app-name|`true`|`string`|Name of the WebApp or Azure Functions from which to obtain the publishing profile.|
+|resource-group|`true`|`string`|Resource group ID|
 
-### iOS
+### Outputs
 
-|Name|Required|Type|Default|Description|
-|:--|:--|:--|:--|:--|
-|export-method|`false`|`string`|development|Define the profile type, can be appstore, adhoc, development, enterprise, developer_id, mac_installer_distribution.|
-|include-bitcode|`false`|`boolean`|`false`|Should the ipa file include bitcode?|
-|include-symbols|`false`|`boolean`|`false`|Should the ipa file include symbols?|
-|scheme|`false`|`string`|Unity-iPhone|The project's scheme.|
-|sdk|`false`|`string`|iphoneos|The SDK that should be used for building the application.|
-|team-id|`false`|`string`|""|The ID of your Developer Portal team if you're in multiple teams.|
-
-### Android
-
-|Name|Required|Type|Default|Description|
-|:--|:--|:--|:--|:--|
-|keystore|`false`|`string`|""|Specify the path to the keystore file.<br>For Android, if `keystore` or `keystore-base64`, `keystore-password`, `keystore-alias`,`keystore-alias-password` is not specified, will be signed with a debug key.|
-|keystore-base64|`false`|`string`|""|Specifies Base64 data for the keystore.<br>If you do not specify a file path in `keystore`, you must specify this parameter.<br>Also, if this value is specified, the value of `keystore` is ignored.|
-|keystore-password|`false`|`string`|""|Specify the password for the keystore.|
-|keystore-alias|`false`|`string`|""|Specifies the name of the keystore alias.|
-|keystore-alias-password|`false`|`string`|""|Specify the password for the keystore alias.|
+|Name|Type|Description|
+|:--|:--|:--|
+|publish-profile||`string`|Publishing profile|
 
 ## License
 
-Any contributions made under this project will be governed by the [MIT License][3].
-
-[0]: https://github.com/akiojin/unity-build-github-action/actions/workflows/Test.yml/badge.svg
-[1]: https://docs.fastlane.tools/
-[2]: https://github.com/akiojin/unity-build-github-action/blob/main/action.yml
-[3]: https://github.com/akiojin/unity-build-github-action/blob/main/LICENSE
+Any contributions made under this project will be governed by the [MIT License](https://github.com/akiojin/azure-publish-profile-github-action/blob/main/LICENSE).
