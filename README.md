@@ -1,6 +1,6 @@
 # azure-publish-profile-github-action
 
-[Build](https://github.com/akiojin/unity-build-github-action/actions/workflows/Test.yml/badge.svg)
+![Build](https://github.com/akiojin/azure-publish-profile-github-action/actions/workflows/Build.yml/badge.svg)
 
 This action retrieves the publish profile used for publishing in Azure WebApp and Azure Functions.
 
