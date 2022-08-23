@@ -1,0 +1,37 @@
+name: 'azure-publish-profile-github-action'
+description: 'This action retrieves the publish profile used for publishing in Azure WebApp and Azure Functions.'
+inputs:
+  app-id:
+    description: >
+      Service Principal App ID.
+    required: true
+  password:
+    description: >
+      Service Principal Password.
+    required: true
+  tenant:
+    description: >
+      Service Principal Tenant ID.
+    required: true
+  subscription:
+    description: >
+      Subscription ID.
+    required: true
+  app-name:
+    description: >
+      Name of the WebApp or Azure Functions from which to obtain the publishing profile.
+    required: true
+  resource-group:
+    description: >
+      Resource group ID
+    required: true
+outputs:
+  publish-profile:
+    description: >
+      Publishing Profile (XML format)
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
+branding:
+  icon: "box"
+  color: "orange"
