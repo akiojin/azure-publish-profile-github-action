@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import * as exec from '@actions/exec'
 import { ArgumentBuilder } from '@akiojin/argument-builder'
 
-async function Login(appID: string, password: string, tenant: string)
+async function Login(appID: string, password: string, tenant: string): Promise<void>
 {
     const builder = new ArgumentBuilder()
         .Append('login')
@@ -13,7 +13,7 @@ async function Login(appID: string, password: string, tenant: string)
     await exec.exec('az', builder.Build())
 }
 
-async function GetPublishProfile(appName: string, resourceGroup: string, subscription: string)
+async function GetPublishProfile(appName: string, resourceGroup: string, subscription: string): Promise<string>
 {
     const builder = new ArgumentBuilder()
         .Append('webapp')
