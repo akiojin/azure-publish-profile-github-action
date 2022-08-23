@@ -16,10 +16,6 @@ brew update && brew install azure-cli
 
 ## Usage
 
-### Simple usage
-
-#### iOS builds
-
 ```yml
 - uses: akiojin/azure-publish-profile-github-action@v3
   id: publish-profile
@@ -31,57 +27,6 @@ brew update && brew install azure-cli
     app-name: <AppName>
     resource-group: <Resource Group>
 ```
-
-#### Team ID & Provisioning Profile UUID
-
-```yml
-- uses: akiojin/setup-xcode-environment-github-action@v2
-  id: setup-xcode-environment
-  with:
-    type: ${{ env.DISTRIBUTION }}
-    app-identifier: <App ID>
-    team-id: <Team ID>
-    git-url: ${{ secrets.APPLE_CERTIFICATE_GIT_URL }}
-    git-passphrase: ${{ secrets.APPLE_CERTIFICATE_GIT_PASSPHRASE }}
-    git-branch: "develop"
-    keychain: ${{ steps.setup-temporary-keychain.outputs.keychain }}
-    keychain-password: ${{ steps.setup-temporary-keychain.outputs.keychain-password }}
-
-- uses: akiojin/unity-build-github-action@v3
-  with:
-    build-target: 'iOS'
-    project-directory: ${{ github.workspace }}
-    output-directory: ${{ runner.temp }}/Unity
-    export-method: ${{ env.DISTRIBUTION }}
-    team-id: <Team ID>
-    provisioning-profile-uuid: ${{ steps.setup-xcode-environment.outputs.provisioning-profile-uuid }}
-```
-
-#### Android builds
-
-```yml
-- uses: akiojin/unity-build-github-action@v3
-  with:
-    build-target: 'Android'
-    project-directory: ${{ github.workspace }}
-    output-directory: ${{ runner.temp }}/Unity
-```
-
-#### Keystore
-
-```yml
-- uses: akiojin/unity-build-github-action@v3
-  with:
-    build-target: 'Android'
-    project-directory: ${{ github.workspace }}
-    output-directory: ${{ runner.temp }}/Unity
-    keystore-base64: ${{ secrets.GOOGLE_KEYSTORE_BASE64 }}
-    keystore-password: ${{ secrets.GOOGLE_KEYSTORE_PASSWORD }}
-    keystore-alias: 'development'
-    keystore-alias-password: ${{ secrets.GOOGLE_KEYSTORE_ALIAS_DEVELOPMENT_PASSWORD }}
-```
-
-## Arguments
 
 ### Common
 

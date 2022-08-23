@@ -16,8 +16,8 @@ async function Login(appID: string, password: string, tenant: string): Promise<v
 async function LoginServicePrincipal(appID: string, password: string, tenant: string): Promise<void>
 {
     const builder = new ArgumentBuilder()
-        .Append('--service-principal')
         .Append('login')
+        .Append('--service-principal')
         .Append('--username', appID)
         .Append('--password', password)
         .Append('--tenant', tenant)

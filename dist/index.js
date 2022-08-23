@@ -4103,8 +4103,8 @@ async function Login(appID, password, tenant) {
 }
 async function LoginServicePrincipal(appID, password, tenant) {
     const builder = new argument_builder_1.ArgumentBuilder()
-        .Append('--service-principal')
         .Append('login')
+        .Append('--service-principal')
         .Append('--username', appID)
         .Append('--password', password)
         .Append('--tenant', tenant);
