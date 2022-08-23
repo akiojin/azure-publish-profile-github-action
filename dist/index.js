@@ -4096,8 +4096,17 @@ const argument_builder_1 = __nccwpck_require__(175);
 async function Login(appID, password, tenant) {
     const builder = new argument_builder_1.ArgumentBuilder()
         .Append('login')
-        .Append('-u', appID)
-        .Append('-p', password)
+        .Append('--username', appID)
+        .Append('--password', password)
+        .Append('--tenant', tenant);
+    await exec.exec('az', builder.Build());
+}
+async function LoginServicePrincipal(appID, password, tenant) {
+    const builder = new argument_builder_1.ArgumentBuilder()
+        .Append('--service-principal')
+        .Append('login')
+        .Append('--username', appID)
+        .Append('--password', password)
         .Append('--tenant', tenant);
     await exec.exec('az', builder.Build());
 }
@@ -4110,6 +4119,9 @@ async function GetPublishProfile(appName, resourceGroup, subscription) {
         .Append('--resource-group', resourceGroup)
         .Append('--subscription', subscription)
         .Append('--xml');
+    return await ExecuteAndResult('az', builder.Build());
+}
+async function ExecuteAndResult(commandLine, args) {
     let output = '';
     const options = {
         listeners: {
@@ -4118,12 +4130,12 @@ async function GetPublishProfile(appName, resourceGroup, subscription) {
             }
         }
     };
-    await exec.exec('az', builder.Build(), options);
+    await exec.exec('az', args, options);
     return output;
 }
 async function Run() {
     try {
-        await Login(core.getInput('app-id'), core.getInput('password'), core.getInput('tenant'));
+        await LoginServicePrincipal(core.getInput('app-id'), core.getInput('password'), core.getInput('tenant'));
         const publishProfile = GetPublishProfile(core.getInput('app-name'), core.getInput('resource-group'), core.getInput('subscription'));
         core.setOutput('publish-profile', publishProfile);
     }

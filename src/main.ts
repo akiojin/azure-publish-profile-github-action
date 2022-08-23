@@ -6,8 +6,20 @@ async function Login(appID: string, password: string, tenant: string): Promise<v
 {
     const builder = new ArgumentBuilder()
         .Append('login')
-        .Append('-u', appID)
-        .Append('-p', password)
+        .Append('--username', appID)
+        .Append('--password', password)
+        .Append('--tenant', tenant)
+    
+    await exec.exec('az', builder.Build())
+}
+
+async function LoginServicePrincipal(appID: string, password: string, tenant: string): Promise<void>
+{
+    const builder = new ArgumentBuilder()
+        .Append('--service-principal')
+        .Append('login')
+        .Append('--username', appID)
+        .Append('--password', password)
         .Append('--tenant', tenant)
     
     await exec.exec('az', builder.Build())
@@ -24,6 +36,11 @@ async function GetPublishProfile(appName: string, resourceGroup: string, subscri
         .Append('--subscription', subscription)
         .Append('--xml')
     
+    return await ExecuteAndResult('az', builder.Build());
+}
+
+async function ExecuteAndResult(commandLine: string, args?: string[])
+{
     let output: string = ''
     const options: exec.ExecOptions = {
         listeners: {
@@ -33,7 +50,7 @@ async function GetPublishProfile(appName: string, resourceGroup: string, subscri
         }
     }
 
-    await exec.exec('az', builder.Build(), options)
+    await exec.exec('az', args, options)
 
     return output;
 }
@@ -41,7 +58,7 @@ async function GetPublishProfile(appName: string, resourceGroup: string, subscri
 async function Run()
 {
     try {
-        await Login(core.getInput('app-id'), core.getInput('password'), core.getInput('tenant'))
+        await LoginServicePrincipal(core.getInput('app-id'), core.getInput('password'), core.getInput('tenant'))
 
         const publishProfile = GetPublishProfile(core.getInput('app-name'), core.getInput('resource-group'), core.getInput('subscription'))
         core.setOutput('publish-profile', publishProfile)
