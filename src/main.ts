@@ -50,7 +50,7 @@ async function ExecuteAndResult(commandLine: string, args?: string[])
         }
     }
 
-    await exec.exec('az', args, options)
+    await exec.exec(commandLine, args, options)
 
     return output;
 }
@@ -58,9 +58,16 @@ async function ExecuteAndResult(commandLine: string, args?: string[])
 async function Run()
 {
     try {
-        await LoginServicePrincipal(core.getInput('app-id'), core.getInput('password'), core.getInput('tenant'))
+        await LoginServicePrincipal(
+            core.getInput('app-id'),
+            core.getInput('password'),
+            core.getInput('tenant'))
 
-        const publishProfile = GetPublishProfile(core.getInput('app-name'), core.getInput('resource-group'), core.getInput('subscription'))
+        const publishProfile = GetPublishProfile(
+            core.getInput('app-name'),
+            core.getInput('resource-group'),
+            core.getInput('subscription'))
+
         core.setOutput('publish-profile', publishProfile)
     } catch (ex: any) {
         core.setFailed(ex.message)
