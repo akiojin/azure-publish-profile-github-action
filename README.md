@@ -1,4 +1,4 @@
-# azure-publish-profile-github-action
+# Azure Publish profile
 
 ![Build](https://github.com/akiojin/azure-publish-profile-github-action/actions/workflows/Build.yml/badge.svg)
 
