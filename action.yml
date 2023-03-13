@@ -1,4 +1,4 @@
-name: 'azure-publish-profile-github-action'
+name: 'Azure Publish profile'
 description: 'This action retrieves the publish profile used for publishing in Azure WebApp and Azure Functions.'
 inputs:
   app-id:
