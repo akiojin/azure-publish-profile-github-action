@@ -6,17 +6,6 @@ async function Login(appID: string, password: string, tenant: string): Promise<v
 {
     const builder = new ArgumentBuilder()
         .Append('login')
-        .Append('--username', appID)
-        .Append('--password', password)
-        .Append('--tenant', tenant)
-    
-    await exec.exec('az', builder.Build())
-}
-
-async function LoginServicePrincipal(appID: string, password: string, tenant: string): Promise<void>
-{
-    const builder = new ArgumentBuilder()
-        .Append('login')
         .Append('--service-principal')
         .Append('--username', appID)
         .Append('--password', password)
@@ -58,7 +47,7 @@ async function ExecuteAndResult(commandLine: string, args?: string[])
 async function Run()
 {
     try {
-        await LoginServicePrincipal(
+        await Login(
             core.getInput('app-id'),
             core.getInput('password'),
             core.getInput('tenant'))
