@@ -58,6 +58,7 @@ async function Run()
             core.getInput('subscription'))
 
         core.setOutput('publish-profile', publishProfile)
+        core.exportVariable('PUBLISH_PROFILE', publishProfile)
     } catch (ex: any) {
         core.setFailed(ex.message)
     }

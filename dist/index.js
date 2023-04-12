@@ -4145,6 +4145,7 @@ async function Run() {
         await Login(core.getInput('app-id'), core.getInput('password'), core.getInput('tenant'));
         const publishProfile = GetPublishProfile(core.getInput('app-name'), core.getInput('resource-group'), core.getInput('subscription'));
         core.setOutput('publish-profile', publishProfile);
+        core.exportVariable('PUBLISH_PROFILE', publishProfile);
     }
     catch (ex) {
         core.setFailed(ex.message);
