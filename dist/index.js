@@ -4143,7 +4143,7 @@ async function ExecuteAndResult(commandLine, args) {
 async function Run() {
     try {
         await Login(core.getInput('app-id'), core.getInput('password'), core.getInput('tenant'));
-        const publishProfile = GetPublishProfile(core.getInput('app-name'), core.getInput('resource-group'), core.getInput('subscription'));
+        const publishProfile = await GetPublishProfile(core.getInput('app-name'), core.getInput('resource-group'), core.getInput('subscription'));
         core.setOutput('publish-profile', publishProfile);
         core.exportVariable('PUBLISH_PROFILE', publishProfile);
     }

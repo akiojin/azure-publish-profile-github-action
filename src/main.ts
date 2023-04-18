@@ -52,7 +52,7 @@ async function Run()
             core.getInput('password'),
             core.getInput('tenant'))
 
-        const publishProfile = GetPublishProfile(
+        const publishProfile = await GetPublishProfile(
             core.getInput('app-name'),
             core.getInput('resource-group'),
             core.getInput('subscription'))
