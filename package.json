@@ -1,6 +1,6 @@
 {
   "name": "@akiojin/azure-publish-profile-action",
-  "version": "0.1.7",
+  "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
