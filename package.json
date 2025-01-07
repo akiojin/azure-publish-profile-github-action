@@ -27,7 +27,7 @@
     "@actions/core": "1.11.1",
     "@actions/exec": "^1.1.0",
     "@akiojin/argument-builder": "^1.0.0",
-    "@commitlint/cli": "18.2.0",
+    "@commitlint/cli": "19.6.1",
     "@commitlint/config-conventional": "18.1.0",
     "@types/node": "20.8.10",
     "@vercel/ncc": "0.38.1",
