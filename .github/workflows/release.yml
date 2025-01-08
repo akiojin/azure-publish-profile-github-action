@@ -39,7 +39,7 @@ jobs:
 
           git tag "$TAG"
           git push --force origin "$TAG"
-          gh release create v$VERSION --generate-notes
+          gh release create v$VERSION --generate-notes --target main
 
           echo "Tag $TAG has been created and pushed successfully."
   
